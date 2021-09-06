@@ -17,10 +17,35 @@ public class ThirdPersonController : MonoBehaviour
     //恢復程式預設值請按...Reset
     //欄位屬性Attribute :輔助欄位資料
     //欄位屬性語法:[屬性名稱(屬性值)]
-    [Header("移動速度"),Tooltip("用來調整腳色移動速度"),Range(1,500)]
-    public float speed=10.5f;
+    [Header("移動速度"), Tooltip("用來調整腳色移動速度"), Range(1, 500)]
+    public float speed = 10.5f;
+    [Header("跳躍高度"), Tooltip("用來調整腳色跳躍高度"), Range(1, 1000)]
+    public int hight = 100;
+
+    [Header("檢查地面資料") ]
+    [Tooltip("用來檢查腳色是否在地面上")]
+    public bool on_the_ground ;
+    public float groundhannkei = 0.2f;
+    public Vector3 v3CheckGroundOffset;
+    [Range(0, 3)]
+    public float checkGroundRadius = 0.2f;
+
+    [Header("音效檔案")]
+    public AudioClip jump_sound;
+    public AudioClip landing_sound;
+
+    [Header("動畫參數")]
+    public string animatorWalk = "走路開關";
+    public string animatorRun = "跑步開關";
+    public string animatorHurt = "受傷開關";
+    public string animatorDeath = "死亡開關";
+
+    private AudioSource aud;
+    private Rigidbody rig;
+    private Animator ani;
 
     #region Unity 類型
+    /** 練習Unity
     //顏色 Color
     public Color color;
     public Color white = Color.white;                  //內建顏色
@@ -48,9 +73,20 @@ public class ThirdPersonController : MonoBehaviour
     public Sprite sprite;      //圖片png,jpeg    -不支援gif
     public Texture2D texture2D;//2D 圖片 png,jpeg
     public Material material;  //材質球
+    [Header("元件")]
+    //元件 Component :屬性面板上可折疊的
+    public Transform tra;
+    public Animation aniOld;
+    public Animator aniNew;
+    public Light lig;
+    public Camera caml
 
+    //綠色蚯蚓
+    //1.建議不要使用此名稱
+    //2.遇到過時的API
+    **/
 
-     #endregion
+    #endregion
     #endregion
     #region 屬性Property
     #endregion
@@ -59,5 +95,13 @@ public class ThirdPersonController : MonoBehaviour
     #endregion
 
     #region 事件 Event
+    //特定時間點會執行的方法，程式的入口start等於Console Main
     #endregion
+
 }
+
+
+
+
+
+
