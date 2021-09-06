@@ -855,6 +855,44 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5be5f9e659fdb0745a2ad6f0c8b0b424, type: 3}
+--- !u!1 &1490188108 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: abc91f329d7fbe043b45d0ac6003f92d, type: 3}
+  m_PrefabInstance: {fileID: 1663099023}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1490188109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490188108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 003f34603a640294eab6178864b9c987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10.5
+  color: {r: 0, g: 0, b: 0, a: 0}
+  white: {r: 1, g: 1, b: 1, a: 1}
+  yellow: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  color1: {r: 1, g: 0.5, b: 0.5, a: 0.5}
+  v2: {x: 0, y: 0}
+  v2Right: {x: 1, y: 0}
+  v2Left: {x: -1, y: 0}
+  v2Up: {x: 1, y: 1}
+  v2Custom: {x: 7.5, y: 100.9}
+  v3: {x: 1, y: 2}
+  v3Forward: {x: 0, y: 0, z: 1}
+  v4: {x: 1, y: 2, z: 3, w: 0}
+  key: 0
+  move: 119
+  jump: 32
+  sound: {fileID: 0}
+  video: {fileID: 0}
+  sprite: {fileID: 0}
+  texture2D: {fileID: 0}
+  material: {fileID: 0}
 --- !u!1001 &1663099023
 PrefabInstance:
   m_ObjectHideFlags: 0
