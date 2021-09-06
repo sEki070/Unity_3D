@@ -43,7 +43,34 @@ public class ThirdPersonController : MonoBehaviour
     private AudioSource aud;
     private Rigidbody rig;
     private Animator ani;
+    //篜舼ctrl+M O
+    //甶秨ctrl+M L
+    
+    private void movement(float speed)
+    {
 
+    }
+   
+    private float movebutton()
+    {
+        return 0f;
+    }
+    private bool groundcheck()
+     {
+        return false;
+     } 
+    private void Jump()
+    {
+        
+    }
+    private void UpdateAnimation() 
+    {
+        
+    }
+
+
+
+    
     #region Unity 摸
     /** 絤策Unity
     //肅︹ Color
@@ -142,12 +169,14 @@ public class ThirdPersonController : MonoBehaviour
     {
         return 999;
     }
-
+    //匡恶Α把计()娩
     //把计粂猭:戈摸 把计嘿
-    private void Skill(int damage)
+    //Τ箇砞把计ぃ块ま计匡恶Α把计
+    private void Skill(int damage,string effect="η剐疭",string sound ="＋＋＋")
     {
         print("把计セ - 端甡:" + damage);
-        print("把计セ-м疭");
+        print("把计セ-м疭:"+effect);
+        print("把计セ - :" + sound);
     }
 
     //癸酚舱:ぃㄏノ把计
@@ -167,6 +196,21 @@ public class ThirdPersonController : MonoBehaviour
         print("端甡:" + 300);
         print("м疭");
     }
+    
+    //*獶ゲ璶璶
+    //BMI = 砰/ō蔼*ō蔼(そへ)
+    /// <summary>
+    /// 璸衡BMIよ猭
+    /// </summary>
+    /// <param name="weight"></param>
+    /// <param name="height"></param>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    private float BMI (float weight,float height, string name = "代刚")
+    {
+        print(name + "BMI");
+        return weight / (height * height);
+    }
 
     #endregion
 
@@ -175,12 +219,17 @@ public class ThirdPersonController : MonoBehaviour
     //秨﹍ㄆン:笴栏秨﹍磅︽Ω矪瞶﹍て眔戈单单
     private void Start()
     {
+        print(BMI(61, 1.71f, "SEKI"));
+        
+        
         Skill100();
         Skill200();
         //㊣Τ把计よ猭ゲ斗块癸莱ま计
         Skill(300);
-        Skill(999);
-
+        Skill(999,"脄疭");
+        //惠―:端甡500疭ノ箇砞传Θ
+        //Τ匡恶Α把计ㄏノ把计粂猭;把计嘿:
+        Skill(500, sound: "");
 
         #region 块 よ猭
         /*
