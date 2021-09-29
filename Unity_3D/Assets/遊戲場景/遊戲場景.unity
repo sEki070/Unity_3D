@@ -937,6 +937,8 @@ MonoBehaviour:
   animatorRun: "\u8DD1\u6B65\u958B\u95DC"
   animatorHurt: "\u53D7\u50B7\u958B\u95DC"
   animatorDeath: "\u6B7B\u4EA1\u958B\u95DC"
+  animatorJump: "\u8DF3\u8E8D\u89F8\u767C"
+  animatorIsGrounded: "\u662F\u5426\u5728\u5730\u4E0A"
   playerObject: {fileID: 1490188108}
 --- !u!136 &1490188110
 CapsuleCollider:

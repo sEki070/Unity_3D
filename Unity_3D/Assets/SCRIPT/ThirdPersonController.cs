@@ -39,6 +39,10 @@ public class ThirdPersonController : MonoBehaviour
     public string animatorRun = "跑步開關";
     public string animatorHurt = "受傷開關";
     public string animatorDeath = "死亡開關";
+    public string animatorJump = "跳躍觸發";
+    public string animatorIsGrounded = "是否在地上";
+    
+
 
     private AudioSource aud;
     private Rigidbody rig;
@@ -81,6 +85,7 @@ public class ThirdPersonController : MonoBehaviour
             transform.forward * v3CheckGroundOffset.z,
             checkGroundRadius, 1 << 3);
         //print("球體碰到的第一個物件 : " + hits[0].name);
+        isGrounded = hits.Length > 0;
         //傳回 碰撞陣列數量>0 - 只要碰到指定圖層物件就代表在地面上
         return hits.Length > 0;
      } 
@@ -101,16 +106,21 @@ public class ThirdPersonController : MonoBehaviour
     private bool KeyRight { get=>Input.GetKey(KeyCode.RightArrow);}
     private bool KeyLeft { get=>Input.GetKey(KeyCode.LeftArrow);}
     private void UpdateAnimation()
-        
+
     {
+        #region 練習
         //預測成果:
         //按下前或後時 將布林值設為true
         //沒有按時 將布林值設為false
         //Input
         //if (選擇條件)
         //!= ,==比較運算子(選擇條件)
+        // ani.SetBool(animatorWalk, movement("Vertical") != 0 | movement("Horizontal") != 0);
 
-        if  ( KeyUp | KeyDown |KeyRight | KeyLeft )
+        //ani.SetBool(animatorWalk, true);
+        #endregion
+
+        if ( KeyUp | KeyDown |KeyRight | KeyLeft )
         {
             ani.SetBool(animatorWalk, true);
         }
@@ -118,11 +128,10 @@ public class ThirdPersonController : MonoBehaviour
         {
             ani.SetBool(animatorWalk, false);
         }
-     
-        
-       // ani.SetBool(animatorWalk, movement("Vertical") != 0 | movement("Horizontal") != 0);
-            
-        //ani.SetBool(animatorWalk, true);
+
+        ani.SetBool(animatorIsGrounded, isGrounded);
+        if (keyJump) ani.SetTrigger(animatorJump);
+    
     }              
     #region Unity 類型
     /** 練習Unity
