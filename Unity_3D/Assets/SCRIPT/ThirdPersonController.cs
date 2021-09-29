@@ -24,8 +24,8 @@ public class ThirdPersonController : MonoBehaviour
 
     [Header("檢查地面資料")]
     [Tooltip("用來檢查腳色是否在地面上")]
-    public bool on_the_ground;
-    public float groundhannkei = 0.2f;
+    public bool isGrounded;
+    public float groundHannkei = 0.2f;
     public Vector3 v3CheckGroundOffset;
     [Range(0, 3)]
     public float checkGroundRadius = 0.2f;
@@ -45,23 +45,48 @@ public class ThirdPersonController : MonoBehaviour
     private Animator ani;
     //摺疊ctrl+M O
     //展開ctrl+M L
-    
-    private void movement(float speed)
-    {
 
-    }
-   
-    private float movebutton()
+    /// <summary>
+    /// 移動按鍵輸入
+    /// </summary>
+    /// <param name="move">要取得軸向名稱</param>
+    private void movement(float move)
     {
-        return 0f;
+        //鋼體.加速度 = 三圍向量 - 加速度用來控制缸體三個軸向的運動速度
+        //前方*輸入值*移動速度
+        rig.velocity =
+            Vector3.forward * Movebutton("Vertical") * move +
+            Vector3.right * Movebutton("Horizontal") * move+
+            Vector3.up * rig.velocity.y;
+        
+        
+       
     }
+
+    private float Movebutton(string axisName)
+    {
+        return Input.GetAxis(axisName);
+    }
+
+    /// <summary>
+    /// 檢查地版
+    /// </summary>
+    /// <returns>是否碰到地板</returns>
     private bool groundcheck()
      {
-        return false;
+        Collider[] hits = Physics.OverlapSphere
+            (transform.position +
+            transform.right * v3CheckGroundOffset.x +
+            transform.up * v3CheckGroundOffset.y +
+            transform.forward * v3CheckGroundOffset.z,
+            checkGroundRadius, 1 << 3);
+        //print("球體碰到的第一個物件 : " + hits[0].name);
+        //傳回 碰撞陣列數量>0 - 只要碰到指定圖層物件就代表在地面上
+        return hits.Length > 0;
      } 
     private void Jump()
     {
-        
+        print("是否在地面上: " + groundcheck());
     }
     private void UpdateAnimation() 
     {
@@ -160,6 +185,10 @@ public class ThirdPersonController : MonoBehaviour
     //自訂方法需要被呼叫才會執行方法內的程式
     //名稱顏色為淡黃色 - 沒有被呼叫
     //名稱顏色為亮黃色 - 有被呼叫
+
+
+
+
     private void Test()
     {
         print("我是自訂方法");
@@ -217,6 +246,7 @@ public class ThirdPersonController : MonoBehaviour
     #region 事件 Event
     //特定時間點會執行的方法，程式的入口start等於Console Main
     //開始事件:遊戲開始時執行一次，處理初始化，取得資料等等
+    public GameObject playerObject;
     private void Start()
     {
         print(BMI(61, 1.71f, "SEKI"));
@@ -270,15 +300,46 @@ public class ThirdPersonController : MonoBehaviour
         print("跳躍值:" + j);
         //2.將傳回方法當成值使用
         print("跳躍值，當值使用:" + (ReturnJump() + 1));
+
+        //要取得腳本的遊戲物件可以使用關鍵字 gameObject
+        //取得元件的方法
+        //1.物件欄位名稱，取得原件(類型(元件類型)) 當作元件類型;
+        aud = playerObject.GetComponent(typeof(AudioSource)) as AudioSource;
+        //2.此腳本遊戲物件，取得元件<泛型>();
+        rig = gameObject.GetComponent<Rigidbody>();
+        //3.取得元件<泛型>();
+        //類別可以使用繼承類別(父類別)的成員、公開或保護 欄位、屬性與方法
+        ani = GetComponent<Animator>();
     }
     //更新事件:一秒執行60次.60FPS - Frame Per Second
     //處理持續性的運動，移動物件，監聽玩家輸入按鍵
     private void Update()
     {
-
+        groundcheck();
+        Jump();
     }
-    #endregion
+    
+    private void FixedUpdate()
+    {
+        movement(speed);
+    }
+    //繪製圖示事件
+    //在Unity Editor內繪製圖示輔助開發，發布後會自動隱藏
+    private void OnDrawGizmos()
+    {
+        //1.指定顏色
+        //2.繪製圖形
+        Gizmos.color = new Color(1, 0, 0.3f, 0.3f);
+        
 
+        //transform 與此腳本在同階層的transform元件
+        Gizmos.DrawSphere(
+            transform.position+
+            transform.right*v3CheckGroundOffset.x+
+            transform.up*v3CheckGroundOffset.y+
+            transform.forward*v3CheckGroundOffset.z, checkGroundRadius);
+        #endregion
+    }
 }
 
 
