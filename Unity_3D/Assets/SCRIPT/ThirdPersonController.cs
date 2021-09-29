@@ -20,7 +20,7 @@ public class ThirdPersonController : MonoBehaviour
     [Header("移動速度"), Tooltip("用來調整腳色移動速度"), Range(1, 500)]
     public float speed = 10.5f;
     [Header("跳躍高度"), Tooltip("用來調整腳色跳躍高度"), Range(1, 1000)]
-    public int hight = 100;
+    public int jump = 100;
 
     [Header("檢查地面資料")]
     [Tooltip("用來檢查腳色是否在地面上")]
@@ -87,15 +87,43 @@ public class ThirdPersonController : MonoBehaviour
     private void Jump()
     {
         print("是否在地面上: " + groundcheck());
+
+        //並且&&
+        //如果 在地面上 並且 按下空白鍵 就 跳躍
+        if (groundcheck() && keyJump)
+        {
+            //鋼體，添加推力[此物件上方*跳躍]
+            rig.AddForce(transform.up * jump);
+        }
     }
-    private void UpdateAnimation() 
-    {
+    private bool KeyUp { get => Input.GetKey(KeyCode.UpArrow); }
+    private bool KeyDown { get=>Input.GetKey(KeyCode.DownArrow);}
+    private bool KeyRight { get=>Input.GetKey(KeyCode.RightArrow);}
+    private bool KeyLeft { get=>Input.GetKey(KeyCode.LeftArrow);}
+    private void UpdateAnimation()
         
-    }
+    {
+        //預測成果:
+        //按下前或後時 將布林值設為true
+        //沒有按時 將布林值設為false
+        //Input
+        //if (選擇條件)
+        //!= ,==比較運算子(選擇條件)
 
-
-
-    
+        if  ( KeyUp | KeyDown |KeyRight | KeyLeft )
+        {
+            ani.SetBool(animatorWalk, true);
+        }
+        else
+        {
+            ani.SetBool(animatorWalk, false);
+        }
+     
+        
+       // ani.SetBool(animatorWalk, movement("Vertical") != 0 | movement("Horizontal") != 0);
+            
+        //ani.SetBool(animatorWalk, true);
+    }              
     #region Unity 類型
     /** 練習Unity
     //顏色 Color
@@ -175,7 +203,9 @@ public class ThirdPersonController : MonoBehaviour
 
     }
     #endregion
-    public KeyCode keyJump { get; }
+    //C#7.0 存取了 可以使用Lamda =>運算子 
+    //語法: get => {程式區域} - 單行可省略大括號
+    private bool keyJump { get => Input.GetKeyDown(KeyCode.Space); }
     #region 方法 Method
     //定義與實作較複雜程式的區塊，功能
     //方法語法:修飾詞 傳回資料類型 方法名稱(參數1,....參數N){程式區塊}
@@ -315,8 +345,8 @@ public class ThirdPersonController : MonoBehaviour
     //處理持續性的運動，移動物件，監聽玩家輸入按鍵
     private void Update()
     {
-        groundcheck();
         Jump();
+        UpdateAnimation();
     }
     
     private void FixedUpdate()

@@ -925,8 +925,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 003f34603a640294eab6178864b9c987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10.5
-  hight: 100
+  speed: 1
+  jump: 196
   isGrounded: 0
   groundHannkei: 0.2
   v3CheckGroundOffset: {x: -0.02, y: -0.04, z: -0.02}
