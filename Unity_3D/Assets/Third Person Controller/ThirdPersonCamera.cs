@@ -20,6 +20,8 @@ namespace Shih
         public float speedTurnVertical = 5;
         [Header("在X軸上下旋轉限制: 最小與最大值")]
         public Vector2 limitAngleX = new Vector2(-0.2f, 0.2f);
+        [Header("攝影機在角色前方上下旋轉限制: 最小與最大值")]
+        public Vector2 limitAngleFromTarget = new Vector2(-0.2f, 0);
 
         /// <summary>
         /// 攝影機前方座標
@@ -28,7 +30,7 @@ namespace Shih
         /// <summary>
         /// 前方的長度
         /// </summary>
-        private float lengthForward;
+        private float lengthForward=3;
         #endregion
 
         #region 屬性
@@ -57,7 +59,7 @@ namespace Shih
         private void Update()
         {
             TurnCamera();
-            LimitAngleX();
+            LimitAngleXAndZFromTarget();
             FreezeAngleZ();
         }
         private void LateUpdate()
@@ -101,12 +103,15 @@ namespace Shih
             inputMouseX * Time.deltaTime * speedTurnHorizontal, 0);
 
         }
-
-        private void LimitAngleX()
+        /// <summary>
+        /// 限制角度 X 軸與在目標前面的 Z 軸
+        /// </summary>
+        private void LimitAngleXAndZFromTarget()
         {
             //print("攝影機的角度資訊 "+transform.rotation);
             Quaternion angle = transform.rotation;
             angle.x = Mathf.Clamp(angle.x, limitAngleX.x, limitAngleX.y);
+            angle.z = Mathf.Clamp(angle.z, limitAngleFromTarget.x, limitAngleFromTarget.y);
             transform.rotation = angle;
         }
         private void FreezeAngleZ()
