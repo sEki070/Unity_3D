@@ -85,9 +85,12 @@ public class ThirdPersonController : MonoBehaviour
             transform.forward * v3CheckGroundOffset.z,
             checkGroundRadius, 1 << 3);
         //print("球體碰到的第一個物件 : " + hits[0].name);
-        isGrounded = hits.Length > 0;
+        
         //傳回 碰撞陣列數量>0 - 只要碰到指定圖層物件就代表在地面上
+        isGrounded = hits.Length > 0;
         return hits.Length > 0;
+     //  if (!isGrounded && hits.Length>0) aud.PlayOneShot(jump_sound, volumeRandom);
+        
      } 
     private void Jump()
     {
@@ -99,6 +102,7 @@ public class ThirdPersonController : MonoBehaviour
         {
             //鋼體，添加推力[此物件上方*跳躍]
             rig.AddForce(transform.up * jump);
+            aud.PlayOneShot(jump_sound, volumeRandom);
         }
     }
     private bool KeyUp { get => Input.GetKey(KeyCode.UpArrow); }
@@ -215,6 +219,7 @@ public class ThirdPersonController : MonoBehaviour
     //C#7.0 存取了 可以使用Lamda =>運算子 
     //語法: get => {程式區域} - 單行可省略大括號
     private bool keyJump { get => Input.GetKeyDown(KeyCode.Space); }
+    private float volumeRandom { get => Random.Range(0.7f, 1.2f); }
     #region 方法 Method
     //定義與實作較複雜程式的區塊，功能
     //方法語法:修飾詞 傳回資料類型 方法名稱(參數1,....參數N){程式區塊}
