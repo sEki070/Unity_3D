@@ -66,6 +66,7 @@ namespace SHIH.Dialogue
             {
                 dialogue.Dialoguee(dataDialogue);
             }
+            else if (!CheckPlayer()) dialogue.StopDialogue();
         }
     }
 }

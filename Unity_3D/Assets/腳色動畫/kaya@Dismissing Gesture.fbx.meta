@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: "Kaya_\u8AAA\u8A71"
+    second: "Kaya_\u653B\u64CA"
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -35,7 +35,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: "Kaya_\u8AAA\u8A71"
+      name: "Kaya_\u653B\u64CA"
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0

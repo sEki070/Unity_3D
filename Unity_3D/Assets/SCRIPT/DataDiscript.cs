@@ -14,6 +14,9 @@ namespace SHIH.Dialogue
     [CreateAssetMenu(menuName ="SHIH/對話資料",fileName ="NPC/對話資料")]
     public class DataDiscript : ScriptableObject
     {
+
+        [Header("對話者名稱")]
+        public string nameDialogue;
         [Header("任務前對話內容"),TextArea(3,7)]
         //陣列:保存相同資料類型的結構
         public string[] beforeMission;
