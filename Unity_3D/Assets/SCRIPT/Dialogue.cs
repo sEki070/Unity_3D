@@ -70,15 +70,18 @@ namespace SHIH.Dialogue
         {
             textName.text = "";    //清除 對話者
             textName.text = data.nameDialogue; //更新 對話者
+
+            string[] dialogueContents = data.beforeMission;//儲存對話內容
+            
             //遍尋每段對話 
-            for (int j = 0; j < data.beforeMission.Length; j++)
+            for (int j = 0; j < dialogueContents.Length; j++)
             {
                 textContent.text = "";//清除 對話內容
                 goTriangle.SetActive(false); //隱藏 提示圖示
                 //遍尋對話每一個字
-                for (int i = 0; i < data.beforeMission[j].Length; i++)
+                for (int i = 0; i < dialogueContents[j].Length; i++)
                 {
-                    textContent.text += data.beforeMission[j][i];
+                    textContent.text += dialogueContents[j][i];
                     yield return new WaitForSeconds(dialogueInterval);
                 }
                 goTriangle.SetActive(true); //顯示 提示圖示

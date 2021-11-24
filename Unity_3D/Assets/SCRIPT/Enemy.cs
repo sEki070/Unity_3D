@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using SHIH.Dialogue;
 
 
 namespace SHIH.Enemy
@@ -67,6 +68,32 @@ namespace SHIH.Enemy
         #endregion
 
         #region 事件
+        //想抓的NPC名稱
+        [Header("NPC 名稱")]
+        public string nameNPC = "NPC小明";
+
+        //抓的資料
+        private NPC npc;
+        private HurtSystem hurtSystem;
+
+        private void Awake()
+        {
+            ani = GetComponent<Animator>();
+            nma = GetComponent<NavMeshAgent>();
+            nma.speed = speed;
+            hurtSystem = GetComponent<HurtSystem>();
+
+
+            traPlayer = GameObject.Find(namePlayer).transform;
+            npc = GameObject.Find(nameNPC).GetComponent<NPC>();
+
+            //受傷系統-死亡事件觸發時 請NPC 更新數量
+            //AddListener(方法) 添加監聽器(方法)
+            hurtSystem.onDead.AddListener(npc.UpdateMissionCount);
+
+            nma.SetDestination(transform.position);
+        }
+
         private void Update()
         {
             StateManger();
@@ -222,18 +249,9 @@ namespace SHIH.Enemy
 
             //距離小於等於攻擊 就進攻擊狀態
             if (nma.remainingDistance <= rangeAttack) state = StateEnemy.Attack;
-       
+
         }
 
-        private void Awake()
-        {
-            ani = GetComponent<Animator>();
-            nma = GetComponent<NavMeshAgent>();
-            nma.speed = speed;
-
-            traPlayer = GameObject.Find(namePlayer).transform;
-            nma.SetDestination(transform.position);
-        }
         [Header("攻擊時間"), Range(0, 5)]
         public float timeAttack = 2.5f;
         private string parameterAttack = "攻擊觸發";
@@ -280,7 +298,7 @@ namespace SHIH.Enemy
                v3AttackOffset / 2, Quaternion.identity, 1 << 6);
 
             //如果 碰撞物件數量大於 零、 傳送攻擊力給碰撞物件的受傷系統
-            if (hits.Length > 0)targetIsDead= hits[0].GetComponent<HurtSystem>().Hurt(attack);
+            if (hits.Length > 0) targetIsDead = hits[0].GetComponent<HurtSystem>().Hurt(attack);
             if (targetIsDead) TargetDead();
 
             float waitToNextAttack = timeAttack - delaySendDamage;  //計算剩餘冷卻時間
@@ -317,8 +335,8 @@ namespace SHIH.Enemy
 
 }
 
-    
 
-   
+
+
 
 
