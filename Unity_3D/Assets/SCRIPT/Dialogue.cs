@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using System.Collections;
 
 namespace SHIH.Dialogue
@@ -20,6 +21,8 @@ namespace SHIH.Dialogue
         public float dialogueInterval = 0.3f;
         [Header("對話按鍵")]
         public KeyCode dialogueKey = KeyCode.Space;
+        [Header("打字事件")]
+        public UnityEvent onType;
 
         /// <summary>
         /// 開始對話
@@ -68,11 +71,28 @@ namespace SHIH.Dialogue
         /// <returns></returns>
         private IEnumerator ShowDialogueContent(DataDiscript data)
         {
-            textName.text = "";    //清除 對話者
-            textName.text = data.nameDialogue; //更新 對話者
-
-            string[] dialogueContents = data.beforeMission;//儲存對話內容
+            textName.text = "";                 //清除 對話者
+            textName.text = data.nameDialogue;  //更新 對話者
             
+            #region 處理任務狀態與對話資料
+            string[] dialogueContents = { };    //儲存 對話內容 為 空值  
+
+            switch (data.stateNPCMission)
+            {
+                case StateNPCMission.BeforeMission:
+                    dialogueContents = data.beforeMission;
+                    break;
+                case StateNPCMission.Missioning:
+                    dialogueContents = data.missioning;
+                    break;
+                case StateNPCMission.AfterMission:
+                    dialogueContents = data.aftermission;
+                    break;
+                default:
+                    break;
+            }
+            #endregion
+
             //遍尋每段對話 
             for (int j = 0; j < dialogueContents.Length; j++)
             {
@@ -81,6 +101,7 @@ namespace SHIH.Dialogue
                 //遍尋對話每一個字
                 for (int i = 0; i < dialogueContents[j].Length; i++)
                 {
+                    onType.Invoke(); //執行事件
                     textContent.text += dialogueContents[j][i];
                     yield return new WaitForSeconds(dialogueInterval);
                 }

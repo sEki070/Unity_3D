@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 namespace SHIH.Dialogue
 {
     /// <summary>
@@ -23,6 +24,8 @@ namespace SHIH.Dialogue
 
         [Header("對話系統")]
         public Dialogue dialogue;
+        [Header("完成任務的事件")]
+        public UnityEvent onFinish;
 
         /// <summary>
         /// 目前任務數量
@@ -34,12 +37,26 @@ namespace SHIH.Dialogue
             Gizmos.color = new Color(0, 1, 0.2f, 0.3f);
             Gizmos.DrawSphere(transform.position, checkPlayerRadius);
         }
+
+        /// <summary>
+        /// 初始設定
+        /// 狀態恢復為任務前
+        /// </summary>
+        private void Initialize()
+        {
+            dataDialogue.stateNPCMission = StateNPCMission.BeforeMission;
+        }
+        private void Awake()
+        {
+            Initialize();
+        }
         private void Update()
         {
             goTip.SetActive(CheckPlayer());
             LookAtPlayer();
             StartDialogue();
         }
+
         /// <summary>
         /// 檢查玩家是否進入
         /// </summary>
@@ -50,6 +67,7 @@ namespace SHIH.Dialogue
             if (hits.Length > 0) target = hits[0].transform;
             return hits.Length > 0;
         }
+
         /// <summary>
         /// 面向玩家
         /// </summary>
@@ -64,12 +82,16 @@ namespace SHIH.Dialogue
 
         /// <summary>
         /// 玩家進入範圍內 並且按下指定案件 請對話系統執行 開始對話 
+        /// 玩家退出範圍外 停止對話
+        /// 判斷狀態: 任務前、中、後
         /// </summary>
         private void StartDialogue()
         {
             if (CheckPlayer() && startDialogueKey)
             {
                 dialogue.Dialoguee(dataDialogue);
+                if (dataDialogue.stateNPCMission == StateNPCMission.BeforeMission)
+                    dataDialogue.stateNPCMission = StateNPCMission.Missioning;
             }
             else if (!CheckPlayer()) dialogue.StopDialogue();
         }
@@ -85,7 +107,8 @@ namespace SHIH.Dialogue
             //目前數量 等於 需求數量 狀態 等於 完成任務
             if (countCurrent == dataDialogue.countNeed) dataDialogue.stateNPCMission = StateNPCMission.AfterMission;
             {
-
+                dataDialogue.stateNPCMission = StateNPCMission.AfterMission;
+                onFinish.Invoke();
             }
 
         }
